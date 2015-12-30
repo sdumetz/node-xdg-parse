@@ -23,6 +23,11 @@ By giving xdg-parse an extra *locale* argument, one can retrieve those lines ins
 
     parse(data,"fr"); //locale is case insensitive
 
+### Improvements
+
+Array are not parsed. That's because I could not find strong evidence under which circumstances a comma / semicolon separated list of values should be considered an array. It seems to be up to the implementor to choose which keys are to be a list and which are to be plain text.
+
+
 ### Contributing
 
 feel free to provide any test material that might prove this parser faulty.

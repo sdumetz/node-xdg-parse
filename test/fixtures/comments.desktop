@@ -1,0 +1,4 @@
+; this is a Comment
+# this is also a Comment
+[ Section ]
+key = Value

@@ -6,6 +6,7 @@ var cases = [
 , {infile:'index.theme',outfile:"index.json"}
 , {infile:'index.theme',outfile:"index_sv.json",locale:"sv"}
 , {infile:'mimeapps.list',outfile:"mimeapps.json"}
+, {infile:'comments.desktop',outfile:"comments.json"}
 ]
 
 
