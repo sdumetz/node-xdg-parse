@@ -4,6 +4,7 @@ var parse = require("../index.js")
 var cases = [
   {name:'fooview',infile:'fooview.desktop',outfile:"fooview.json"}
 , {name:'desktop theme',infile:'index.theme',outfile:"index.json"}
+, {name:'desktop theme [sv]',infile:'index.theme',outfile:"index_sv.json",locale:"sv"}
 ]
 
 
@@ -26,19 +27,11 @@ function loader (obj){
 
 describe("parseXdgFile",function(){
   cases.forEach(function(obj){
-    describe("parse"+obj.name,function(){
-      var data = {in:"",out:{}};
-      before(function(done){
-        loader(obj).then(function(readdata){
-          data = readdata;
-          done();
-        }).catch(function(e){process.nextTick(done.bind(this,e))});
-      });
-
-      it("without locale",function(){
-        expect(parse(data.in)).to.deep.equal(data.out);
-      })
-
+    it("parse : "+obj.name+((obj.locale)?" ["+obj.locale+"]":""),function(done){
+      loader(obj).then(function(data){
+        expect(parse(data.in,obj.locale)).to.deep.equal(data.out);
+        done();
+      }).catch(function(e){process.nextTick(done.bind(this,e))});
     })
   });
 })
