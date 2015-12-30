@@ -6,8 +6,8 @@ Comment=The best viewer for Foo objects available!
 TryExec=fooview
 Exec=fooview %F
 Icon=fooview
-MimeType=image/x-foo;
-Actions=Gallery;Create;
+MimeType=image/x-foo
+Actions=Gallery;Create
 
 [Desktop Action Gallery]
 Exec=fooview --gallery
@@ -17,4 +17,3 @@ Name=Browse Gallery
 Exec=fooview --create-new
 Name=Create a new Foo!
 Icon=fooview-new
-    

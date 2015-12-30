@@ -1,6 +1,9 @@
-var match_section = /^\[([^\]]*)\]/;
-var match_line = /^([\w\s]*)(?:\[(\w*)\])?=(.*)$/;
-var match_comment = /^[;#]/;
+const match_section = /^\[([^\]]*)\]/;
+const match_line = /^([^\[=]*)(?:\[(\w*)\])?=(.*)$/;
+const match_comment = /^[;#]/;
+const cleanup = function(val){
+  return val.replace(/[\s;]+$/,"");
+}
 module.exports = function(content,locale){
   var lines = content.split("\n");
   var obj = {};
@@ -15,6 +18,8 @@ module.exports = function(content,locale){
     }else{
       tmp = match_line.exec(line);
       if(tmp && tmp[1] && tmp[3]){
+        tmp[1] = cleanup(tmp[1]);
+        tmp[3] = cleanup(tmp[3]);
         if(typeof obj[currentSection][tmp[1]] == "undefined"){
           obj[currentSection][tmp[1]] = tmp[3]
         }else if(tmp[2] && locale && tmp[2].toUpperCase() == locale.toUpperCase()){

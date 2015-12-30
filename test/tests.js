@@ -2,9 +2,10 @@ var path = require("path");
 var fs = require("fs");
 var parse = require("../index.js")
 var cases = [
-  {name:'fooview',infile:'fooview.desktop',outfile:"fooview.json"}
-, {name:'desktop theme',infile:'index.theme',outfile:"index.json"}
-, {name:'desktop theme [sv]',infile:'index.theme',outfile:"index_sv.json",locale:"sv"}
+  {infile:'fooview.desktop',outfile:"fooview.json"}
+, {infile:'index.theme',outfile:"index.json"}
+, {infile:'index.theme',outfile:"index_sv.json",locale:"sv"}
+, {infile:'mimeapps.list',outfile:"mimeapps.json"}
 ]
 
 
@@ -25,9 +26,9 @@ function loader (obj){
   ]).then(function(r){return {in:r[0],out:r[1]}});
 }
 
-describe("parseXdgFile",function(){
+describe("parse : ",function(){
   cases.forEach(function(obj){
-    it("parse : "+obj.name+((obj.locale)?" ["+obj.locale+"]":""),function(done){
+    it(obj.infile+((obj.locale)?" ["+obj.locale+"]":""),function(done){
       loader(obj).then(function(data){
         expect(parse(data.in,obj.locale)).to.deep.equal(data.out);
         done();
