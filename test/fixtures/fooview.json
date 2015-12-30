@@ -9,11 +9,11 @@
     "Name": "Browse Gallery"
   },
   "Desktop Entry": {
-    "Actions": "Gallery;Create",
+    "Actions": "Gallery;Create;",
     "Comment": "The best viewer for Foo objects available!",
     "Exec": "fooview %F",
     "Icon": "fooview",
-    "MimeType": "image/x-foo",
+    "MimeType": "image/x-foo;",
     "Name": "Foo Viewer",
     "TryExec": "fooview",
     "Type": "Application",

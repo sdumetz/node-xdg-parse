@@ -1,21 +1,24 @@
+var rs = /^\[([^\]]*)\]/;
+var rl = /^([\w\s]*)(?:\[(\w*)\])?=(.*)$/;
 module.exports = function(content,locale){
-  var line
-    , obj = {}
-    //, reg = /(?:^\[([\w\s]*)\]\n([^\[]*))/gm; //old regex not matching localized entries
-    , reg = /(?:^\[([\w\s]*)\](?:\n(^[^\[]+(?:\[\w*\])?=.*$))*)/gm;
-  while (line = reg.exec(content)){
-    if(line.length !=3){
-      continue; //Bad conf file should not be ignored siletly?
-    }
-    obj[line[1]]= {};
-    line[2].split("\n").forEach(function(keyVal){
-      if(keyVal.split("=").length !=2){
-        return; //Bad conf file should not be ignored siletly?
+  var lines = content.split("\n");
+  var obj = {};
+  var currentSection;
+  var tmp;
+  lines.forEach(function(line){
+    if(line.indexOf(";") == 0){
+      return ; //Comment line
+    }else if(rs.test(line)){
+      currentSection = rs.exec(line)[1];
+      obj[currentSection] = {};
+    }else{
+      tmp = rl.exec(line);
+      if(tmp && tmp[1] && tmp[3] && typeof obj[currentSection][tmp[1]] == "undefined"){
+        obj[currentSection][tmp[1]] = tmp[3]
+      }else{
+        //Ignore silent lines
       }
-      var key = keyVal.split("=")[0].replace(/^\s*|\s*$/,"");
-      var value = keyVal.split("=")[1].replace(/^\s*|[\n\s;]*$/g,"");
-      obj[line[1]][key] = value;
-    });
-  };
+    }
+  });
   return obj;
 }
