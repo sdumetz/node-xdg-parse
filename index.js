@@ -22,9 +22,11 @@ module.exports = function(content,locale){
         tmp[3] = cleanup(tmp[3]);
         if(typeof obj[currentSection][tmp[1]] == "undefined"){
           obj[currentSection][tmp[1]] = tmp[3]
-        }else if(tmp[2] && locale && cleanup(tmp[2]).toUpperCase() == locale.toUpperCase()){
+        } else if(tmp[2] && locale && cleanup(tmp[2]).toUpperCase() == locale.toUpperCase()){
           obj[currentSection][tmp[1]] = tmp[3]
-        } //Undocumented behaviour if we have twice the same key in a section?
+        } else if(!tmp[2] && !locale) {
+          obj[currentSection][tmp[1]] = tmp[3]
+        } 
         //We just ignore
       }else{
         //Ignore silent lines
