@@ -3,6 +3,7 @@ Name=Birch
 Name[sv]=Björk
 Comment[sv]=Träinspirerat ikontema
 Comment=Icon theme with a wooden look
+Comment[fr]=theme d'icones avec textures bois
 Inherits=wood,default
 Directories=48x48/apps,48x48/mimetypes,32x32/apps,scalable/apps,scalable/mimetypes
 

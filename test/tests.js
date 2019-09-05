@@ -5,6 +5,7 @@ var cases = [
   {infile:'fooview.desktop',outfile:"fooview.json"}
 , {infile:'index.theme',outfile:"index.json"}
 , {infile:'index.theme',outfile:"index_sv.json",locale:"sv"}
+, {infile:'index.theme',outfile:"index_fr.json",locale:"fr"}
 , {infile:'mimeapps.list',outfile:"mimeapps.json"}
 , {infile:'comments.desktop',outfile:"comments.json"}
 ]
