@@ -3,7 +3,7 @@ XDG configuration files syntax parser
 
 ### Usage :
 
-    var parser = require("xdg-parse");
+    var {parse} = require("xdg-parse");
     fs.readFile("your_conf_file",function(err,data){
       if(err){
         //Do something
@@ -22,6 +22,10 @@ Freedesktop offers the possibility to localize comments, names, etc... like :
 By giving xdg-parse an extra *locale* argument, one can retrieve those lines instead of the default when available.
 
     parse(data,"fr"); //locale is case insensitive
+
+### Serialization
+
+data can be serialized back to a text file. However it is not compliant with the specification as the serialized file is stripped of its comments and blank lines.
 
 ### Improvements
 

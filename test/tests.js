@@ -1,6 +1,6 @@
 var path = require("path");
 var fs = require("fs");
-var parse = require("../index.js")
+var {parse, serialize} = require("../index.js")
 var cases = [
   {infile:'fooview.desktop',outfile:"fooview.json"}
 , {infile:'index.theme',outfile:"index.json"}
@@ -30,11 +30,34 @@ function loader (obj){
 
 describe("parse : ",function(){
   cases.forEach(function(obj){
-    it(obj.infile+((obj.locale)?" ["+obj.locale+"]":""),function(done){
-      loader(obj).then(function(data){
-        expect(parse(data.in,obj.locale)).to.deep.equal(data.out);
-        done();
-      }).catch(function(e){process.nextTick(done.bind(this,e))});
+    it(obj.infile+((obj.locale)?" ["+obj.locale+"]":""),function(){
+      return loader(obj).then(function(data){
+        expect(parse(data.in, obj.locale)).to.deep.equal(data.out);
+      });
     })
+  });
+
+  it("throw on invalid parameter", function(){
+    expect(()=>{ parse(null)}).to.throw(Error);
+    expect(()=>{ parse({})}).to.throw(Error);
+  })
+  it("throw on invalid line", function(){
+    expect(()=>{ parse("hello world")}).to.throw(Error);
+  })
+
+  it("parse empty string", function(){
+    expect(parse("")).to.deep.equal({});
+  })
+
+})
+describe("serialize : ",function(){
+  cases.forEach(function(obj){
+    if(obj.locale) return;
+    it(obj.infile, function(){
+      return loader(obj).then(function(data){
+        const output_data = parse(serialize(data.out));
+        expect(output_data).to.deep.equal(data.out);
+      });
+    });
   });
 })
