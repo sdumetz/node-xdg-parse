@@ -22,9 +22,9 @@ function parse(content,locale){
     }else{
       //Add a line to current section
       tmp = match_line.exec(line);
-      if(tmp && tmp[1] && tmp[3]){
+      if(tmp && tmp[1]){
         tmp[1] = cleanup(tmp[1]);
-        tmp[3] = cleanup(tmp[3]);
+        tmp[3] = cleanup(tmp[3] || "");
         if(typeof obj[currentSection][tmp[1]] == "undefined" || !tmp[2] && !locale){
           //re-definition of a line is sort-of permitted
           obj[currentSection][tmp[1]] = tmp[3]
