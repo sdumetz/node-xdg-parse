@@ -1,5 +1,5 @@
 const match_section = /^\[([^\]]*)\]/;
-const match_line = /^([^\[=]*)(?:\[(\w*)\])?=(.*)$/;
+const match_line = /^([^\[=]*)(?:\[([-\w@]*)\])?=(.*)$/;
 const match_comment = /^[;#]/;
 const cleanup = function(val){ //remove leading spaces, trailing spaces and ";"
   return val.replace(/([\s;]+$)|(^\s*)/g,"");
