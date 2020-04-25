@@ -1,6 +1,7 @@
 const match_section = /^\[([^\]]*)\]/;
 const match_line = /^([^\[=]*)(?:\[(\w*)\])?=(.*)$/;
 const match_comment = /^[;#]/;
+const match_arrval = /(^|[^\\]);/g;
 const cleanup = function(val){ //remove leading spaces, trailing spaces and ";"
   return val.replace(/([\s;]+$)|(^\s*)/g,"");
 }
@@ -25,6 +26,9 @@ function parse(content,locale){
       if(tmp && tmp[1] && tmp[3]){
         tmp[1] = cleanup(tmp[1]);
         tmp[3] = cleanup(tmp[3]);
+        if(match_arrval.test(tmp[3])){
+          tmp[3] = splitArrayValue(tmp[3]);
+        }
         if(typeof obj[currentSection][tmp[1]] == "undefined" || !tmp[2] && !locale){
           //re-definition of a line is sort-of permitted
           obj[currentSection][tmp[1]] = tmp[3]
@@ -40,6 +44,12 @@ function parse(content,locale){
     }
   });
   return obj;
+}
+
+function splitArrayValue(val) {
+  sep = 'SPLIT-MARK-' + Math.random();
+  val = val.replace(/([^\\]);$/g, '$1').replace(match_arrval, '$1'+sep).split(sep);
+  return val;
 }
 
 function serialize(obj){
