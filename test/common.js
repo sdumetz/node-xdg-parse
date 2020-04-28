@@ -1,7 +1,20 @@
+'use strict';
 //TEST FRAMEWORKS
-var chai = require('chai');
+const chai = require('chai');
+const chaiAsPromised = require("chai-as-promised");
+const chaiJestSnapshot = require("chai-jest-snapshot");
+
 chai.config.includeStack = true;
-var chaiAsPromised = require("chai-as-promised");
+
 chai.use(chaiAsPromised);
-//server.start(server.app);
+chai.use(chaiJestSnapshot);
+
 global.expect = chai.expect;
+
+before(function() {
+  chaiJestSnapshot.resetSnapshotRegistry();
+});
+ 
+beforeEach(function() {
+  chaiJestSnapshot.configureUsingMochaContext(this);
+});

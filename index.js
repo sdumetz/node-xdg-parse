@@ -8,7 +8,7 @@ function parse(content,locale){
   if(typeof content !== "string"){
     throw new Error(`data must be a string. got ${typeof content}`)
   }
-  var lines = content.split("\n");
+  var lines = content.split(/\r?\n/);
   var obj = {};
   var currentSection;
   var tmp;
