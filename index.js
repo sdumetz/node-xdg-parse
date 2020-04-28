@@ -1,5 +1,5 @@
 const match_section = /^\[([^\]]*)\]/;
-const match_line = /^([^\[=]*)(?:\[([-\w@]*)\])?=(.*)$/;
+const match_line = /^([^\[=]*)(?:\[([-\w@]+)\])?=(.*)$/;
 const match_comment = /^[;#]/;
 
 function cleanup (val){ //remove leading spaces, trailing spaces and ";"
@@ -26,6 +26,7 @@ function parse(content,locale){
   var obj = {};
   var currentSection;
   lines.forEach(function(line, lineNumber){
+    line = line.trim();
     if(match_comment.test(line) || line.length == 0){
       return ; //Comment or empty line
     }else if(match_section.test(line)){

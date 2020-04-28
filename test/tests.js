@@ -25,11 +25,16 @@ describe("parse : ",function(){
   it("parse empty string", function(){
     expect(parse("")).to.deep.equal({});
   })
+  it("parse string with only whitespaces", function(){
+    expect(parse("      ")).to.deep.equal({});
+  })
 
   it("split multiple line breaks", function(){
     expect(parse(`[FOO]\n\nbar=hello world`)).to.deep.equal({FOO:{bar:"hello world"}});
   })
-
+  it("ignore trailing line break", function(){
+    expect(parse(`[FOO]\n\nbar=hello world\n`)).to.deep.equal({FOO:{bar:"hello world"}});
+  })
   it("split CRLF lines (duh!)", function(){
     expect(parse(`[FOO]\r\nbar=hello world`)).to.deep.equal({FOO:{bar:"hello world"}});
   })
@@ -49,6 +54,19 @@ describe("parse : ",function(){
       expect(parse(data, "fr")).to.matchSnapshot();
     })
   })
+
+  it("can parse a locale with country, encoding and modifier",  function(){
+    const de = `[FOO]\n
+      Name[fr]=couleur\n
+      Name[en]=color\n
+      Name[en_GB]=colour\n
+    `;
+    expect(parse(de, "en")).to.deep.equal({FOO:{Name:"color"}});
+    expect(parse(de, "en_GB")).to.deep.equal({FOO:{Name:"colour"}});
+    //Should be matching closest locale
+    //expect(parse(de, "en_AU")).to.deep.equal({FOO:{Name:"color"}});
+  })
+
   cases.forEach(function(file){
     it(`parse(${file})`, function(){
       return load(file).then(function(data){
