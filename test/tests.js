@@ -33,6 +33,15 @@ describe("parse : ",function(){
   it("split CRLF lines (duh!)", function(){
     expect(parse(`[FOO]\r\nbar=hello world`)).to.deep.equal({FOO:{bar:"hello world"}});
   })
+
+  it("parse boolean types", function(){
+    expect(parse(`[FOO]\nbar=true`)).to.deep.equal({FOO:{bar:true}});
+  })
+
+  it("can parse empty string values", function(){
+    expect(parse(`[FOO]\nbar=\n`)).to.deep.equal({FOO:{bar:""}});
+  })
+
   it("can parse a locale", function(){
     return load(path.resolve(__dirname, "fixtures", "index.theme"))
     .then((data)=>{
@@ -62,3 +71,5 @@ describe("serialize : ",function(){
     });
   });
 })
+
+

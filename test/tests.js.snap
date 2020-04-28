@@ -4,17 +4,17 @@ exports[`parse :  can parse a locale 1`] = `
 Object {
   "32x32/apps": Object {
     "Context": "Applications",
-    "Size": "32",
+    "Size": 32,
     "Type": "Fixed",
   },
   "48x48/apps": Object {
     "Context": "Applications",
-    "Size": "48",
+    "Size": 48,
     "Type": "Fixed",
   },
   "48x48/mimetypes": Object {
     "Context": "MimeTypes",
-    "Size": "48",
+    "Size": 48,
     "Type": "Fixed",
   },
   "Icon Theme": Object {
@@ -25,16 +25,16 @@ Object {
   },
   "scalable/apps": Object {
     "Context": "Applications",
-    "MaxSize": "256",
-    "MinSize": "1",
-    "Size": "48",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
     "Type": "Scalable",
   },
   "scalable/mimetypes": Object {
     "Context": "MimeTypes",
-    "MaxSize": "256",
-    "MinSize": "1",
-    "Size": "48",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
     "Type": "Scalable",
   },
 }
@@ -44,17 +44,17 @@ exports[`parse :  can parse a locale 2`] = `
 Object {
   "32x32/apps": Object {
     "Context": "Applications",
-    "Size": "32",
+    "Size": 32,
     "Type": "Fixed",
   },
   "48x48/apps": Object {
     "Context": "Applications",
-    "Size": "48",
+    "Size": 48,
     "Type": "Fixed",
   },
   "48x48/mimetypes": Object {
     "Context": "MimeTypes",
-    "Size": "48",
+    "Size": 48,
     "Type": "Fixed",
   },
   "Icon Theme": Object {
@@ -65,16 +65,16 @@ Object {
   },
   "scalable/apps": Object {
     "Context": "Applications",
-    "MaxSize": "256",
-    "MinSize": "1",
-    "Size": "48",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
     "Type": "Scalable",
   },
   "scalable/mimetypes": Object {
     "Context": "MimeTypes",
-    "MaxSize": "256",
-    "MinSize": "1",
-    "Size": "48",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
     "Type": "Scalable",
   },
 }
@@ -128,17 +128,17 @@ exports[`parse :  parse(index.theme) 1`] = `
 Object {
   "32x32/apps": Object {
     "Context": "Applications",
-    "Size": "32",
+    "Size": 32,
     "Type": "Fixed",
   },
   "48x48/apps": Object {
     "Context": "Applications",
-    "Size": "48",
+    "Size": 48,
     "Type": "Fixed",
   },
   "48x48/mimetypes": Object {
     "Context": "MimeTypes",
-    "Size": "48",
+    "Size": 48,
     "Type": "Fixed",
   },
   "Icon Theme": Object {
@@ -149,16 +149,16 @@ Object {
   },
   "scalable/apps": Object {
     "Context": "Applications",
-    "MaxSize": "256",
-    "MinSize": "1",
-    "Size": "48",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
     "Type": "Scalable",
   },
   "scalable/mimetypes": Object {
     "Context": "MimeTypes",
-    "MaxSize": "256",
-    "MinSize": "1",
-    "Size": "48",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
     "Type": "Scalable",
   },
 }
