@@ -1,19 +1,32 @@
 const match_section = /^\[([^\]]*)\]/;
-const match_line = /^([^\[=]*)(?:\[(\w*)\])?=(.*)$/;
+const match_line = /^([^\[=]*)(?:\[([-\w@]+)\])?=(.*)$/;
 const match_comment = /^[;#]/;
 const match_arrval = /(^|[^\\]);/g;
-const cleanup = function(val){ //remove leading spaces, trailing spaces and ";"
+function cleanup (val){ //remove leading spaces, trailing spaces and ";"
   return val.replace(/([\s;]+$)|(^\s*)/g,"");
 }
+
+function interpolate(val){
+  switch(val){
+    case "true":
+      return true;
+    case "false":
+      return false;
+    default:
+      return /^(?:\d*\.)?\d+$/.test(val)?  parseFloat(val) : val;
+  }
+}
+
+
 function parse(content,locale){
   if(typeof content !== "string"){
     throw new Error(`data must be a string. got ${typeof content}`)
   }
-  var lines = content.split("\n");
+  var lines = content.split(/\r?\n/);
   var obj = {};
   var currentSection;
-  var tmp;
   lines.forEach(function(line, lineNumber){
+    line = line.trim();
     if(match_comment.test(line) || line.length == 0){
       return ; //Comment or empty line
     }else if(match_section.test(line)){
@@ -22,18 +35,25 @@ function parse(content,locale){
       obj[currentSection] = {};
     }else{
       //Add a line to current section
-      tmp = match_line.exec(line);
-      if(tmp && tmp[1] && tmp[3]){
-        tmp[1] = cleanup(tmp[1]);
-        tmp[3] = cleanup(tmp[3]);
-        if(match_arrval.test(tmp[3])){
-          tmp[3] = splitArrayValue(tmp[3]);
+      let tmp = match_line.exec(line);
+      if(tmp && tmp[1]){
+        const key = cleanup(tmp[1]);
+        const key_locale = tmp[2]? cleanup(tmp[2]): undefined;
+        let value = cleanup(tmp[3] || "");
+        if(match_arrval.test(value)){
+          value = splitArrayValue(value);
         }
-        if(typeof obj[currentSection][tmp[1]] == "undefined" || !tmp[2] && !locale){
+
+        if(["Version"].indexOf(key) === -1){
+          /* Manually define a list of known-to-be-a-strings keys*/
+          value = interpolate(value);
+        }
+
+        if(typeof obj[currentSection][key] == "undefined" || !key_locale && !locale){
           //re-definition of a line is sort-of permitted
-          obj[currentSection][tmp[1]] = tmp[3]
-        } else if(tmp[2] && locale && cleanup(tmp[2]).toUpperCase() == locale.toUpperCase()){
-          obj[currentSection][tmp[1]] = tmp[3]
+          obj[currentSection][key] = value;
+        } else if(key_locale && locale && key_locale.toUpperCase() == locale.toUpperCase()){
+          obj[currentSection][key] = value;
         } else {
           // line's locale is set, but no locale was requested 
           // we don't care about this value
@@ -64,4 +84,4 @@ function serialize(obj){
   return lines.join("\n");
 }
 
-module.exports = {parse, serialize};
+module.exports = {parse, serialize, interpolate, splitArrayValue};

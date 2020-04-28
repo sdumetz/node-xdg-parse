@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse :  can parse a locale 1`] = `
+Object {
+  "32x32/apps": Object {
+    "Context": "Applications",
+    "Size": 32,
+    "Type": "Fixed",
+  },
+  "48x48/apps": Object {
+    "Context": "Applications",
+    "Size": 48,
+    "Type": "Fixed",
+  },
+  "48x48/mimetypes": Object {
+    "Context": "MimeTypes",
+    "Size": 48,
+    "Type": "Fixed",
+  },
+  "Icon Theme": Object {
+    "Comment": "Träinspirerat ikontema",
+    "Directories": "48x48/apps,48x48/mimetypes,32x32/apps,scalable/apps,scalable/mimetypes",
+    "Inherits": "wood,default",
+    "Name": "Björk",
+  },
+  "scalable/apps": Object {
+    "Context": "Applications",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
+    "Type": "Scalable",
+  },
+  "scalable/mimetypes": Object {
+    "Context": "MimeTypes",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
+    "Type": "Scalable",
+  },
+}
+`;
+
+exports[`parse :  can parse a locale 2`] = `
+Object {
+  "32x32/apps": Object {
+    "Context": "Applications",
+    "Size": 32,
+    "Type": "Fixed",
+  },
+  "48x48/apps": Object {
+    "Context": "Applications",
+    "Size": 48,
+    "Type": "Fixed",
+  },
+  "48x48/mimetypes": Object {
+    "Context": "MimeTypes",
+    "Size": 48,
+    "Type": "Fixed",
+  },
+  "Icon Theme": Object {
+    "Comment": "theme d'icones avec textures bois",
+    "Directories": "48x48/apps,48x48/mimetypes,32x32/apps,scalable/apps,scalable/mimetypes",
+    "Inherits": "wood,default",
+    "Name": "Birch",
+  },
+  "scalable/apps": Object {
+    "Context": "Applications",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
+    "Type": "Scalable",
+  },
+  "scalable/mimetypes": Object {
+    "Context": "MimeTypes",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
+    "Type": "Scalable",
+  },
+}
+`;
+
+exports[`parse :  parse(comments.desktop) 1`] = `
+Object {
+  "Section": Object {
+    "key": "Value",
+  },
+}
+`;
+
+exports[`parse :  parse(crlf.desktop) 1`] = `
+Object {
+  "Desktop Entry": Object {
+    "Comment": "Files with CRLF line endings are the most fun",
+    "Name": "CRLF File",
+    "Type": "Application",
+    "Version": "1.0",
+  },
+}
+`;
+
+exports[`parse :  parse(fooview.desktop) 1`] = `
+Object {
+  "Desktop Action Create": Object {
+    "Exec": "fooview --create-new",
+    "Icon": "fooview-new",
+    "Name": "Create a new Foo!",
+  },
+  "Desktop Action Gallery": Object {
+    "Exec": "fooview --gallery",
+    "Name": "Browse Gallery",
+  },
+  "Desktop Entry": Object {
+    "Actions": "Gallery;Create",
+    "Comment": "The best viewer for Foo objects available!",
+    "Exec": "fooview %F",
+    "Icon": "fooview",
+    "MimeType": "image/x-foo",
+    "Name": "Foo Viewer",
+    "TryExec": "fooview",
+    "Type": "Application",
+    "Version": "1.0",
+  },
+}
+`;
+
+exports[`parse :  parse(index.theme) 1`] = `
+Object {
+  "32x32/apps": Object {
+    "Context": "Applications",
+    "Size": 32,
+    "Type": "Fixed",
+  },
+  "48x48/apps": Object {
+    "Context": "Applications",
+    "Size": 48,
+    "Type": "Fixed",
+  },
+  "48x48/mimetypes": Object {
+    "Context": "MimeTypes",
+    "Size": 48,
+    "Type": "Fixed",
+  },
+  "Icon Theme": Object {
+    "Comment": "Icon theme with a wooden look",
+    "Directories": "48x48/apps,48x48/mimetypes,32x32/apps,scalable/apps,scalable/mimetypes",
+    "Inherits": "wood,default",
+    "Name": "Birch",
+  },
+  "scalable/apps": Object {
+    "Context": "Applications",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
+    "Type": "Scalable",
+  },
+  "scalable/mimetypes": Object {
+    "Context": "MimeTypes",
+    "MaxSize": 256,
+    "MinSize": 1,
+    "Size": 48,
+    "Type": "Scalable",
+  },
+}
+`;
+
+exports[`parse :  parse(mimeapps.list) 1`] = `
+Object {
+  "Added Associations": Object {
+    "application/bar": "foo",
+    "text/plain": "test.desktop",
+  },
+  "Default Applications": Object {
+    "application/baz": "foobar.desktop",
+    "text/plain": "test.desktop",
+  },
+}
+`;

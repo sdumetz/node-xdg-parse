@@ -1,41 +1,18 @@
+'use strict';
 var path = require("path");
-var fs = require("fs");
-var {parse, serialize} = require("../index.js")
-var cases = [
-  {infile:'fooview.desktop',outfile:"fooview.json"}
-, {infile:'index.theme',outfile:"index.json"}
-, {infile:'index.theme',outfile:"index_sv.json",locale:"sv"}
-, {infile:'index.theme',outfile:"index_fr.json",locale:"fr"}
-, {infile:'mimeapps.list',outfile:"mimeapps.json"}
-, {infile:'comments.desktop',outfile:"comments.json"}
-]
+const fs = require("fs");
+const {readFile} = fs.promises;
+
+const {parse, serialize} = require("../index.js")
+
+let cases = fs.readdirSync(path.resolve(__dirname, "fixtures"));
 
 
-function loader (obj){
-  return Promise.all([
-    new Promise(function(resolve, reject) {
-      fs.readFile(path.resolve(__dirname,"fixtures",obj.infile),{encoding:'utf8'},function(err,data){
-        if(err)return reject(err);
-        resolve(data);
-      });
-    }),
-    new Promise(function(resolve, reject) {
-      fs.readFile(path.resolve(__dirname,"fixtures",obj.outfile),{encoding:'utf8'},function(err,data){
-        if(err)return reject(err);
-        resolve(JSON.parse(data));
-      });
-    })
-  ]).then(function(r){return {in:r[0],out:r[1]}});
+function load(file){
+  return readFile(path.resolve(__dirname,"fixtures", file), {encoding: "utf8"});
 }
 
 describe("parse : ",function(){
-  cases.forEach(function(obj){
-    it(obj.infile+((obj.locale)?" ["+obj.locale+"]":""),function(){
-      return loader(obj).then(function(data){
-        expect(parse(data.in, obj.locale)).to.deep.equal(data.out);
-      });
-    })
-  });
 
   it("throw on invalid parameter", function(){
     expect(()=>{ parse(null)}).to.throw(Error);
@@ -48,16 +25,69 @@ describe("parse : ",function(){
   it("parse empty string", function(){
     expect(parse("")).to.deep.equal({});
   })
+  it("parse string with only whitespaces", function(){
+    expect(parse("      ")).to.deep.equal({});
+  })
+
+  it("split multiple line breaks", function(){
+    expect(parse(`[FOO]\n\nbar=hello world`)).to.deep.equal({FOO:{bar:"hello world"}});
+  })
+  it("ignore trailing line break", function(){
+    expect(parse(`[FOO]\n\nbar=hello world\n`)).to.deep.equal({FOO:{bar:"hello world"}});
+  })
+  it("split CRLF lines (duh!)", function(){
+    expect(parse(`[FOO]\r\nbar=hello world`)).to.deep.equal({FOO:{bar:"hello world"}});
+  })
+
+  it("parse boolean types", function(){
+    expect(parse(`[FOO]\nbar=true`)).to.deep.equal({FOO:{bar:true}});
+  })
+
+  it("can parse empty string values", function(){
+    expect(parse(`[FOO]\nbar=\n`)).to.deep.equal({FOO:{bar:""}});
+  })
+
+  it("can parse a locale", function(){
+    return load(path.resolve(__dirname, "fixtures", "index.theme"))
+    .then((data)=>{
+      expect(parse(data, "sv")).to.matchSnapshot();
+      expect(parse(data, "fr")).to.matchSnapshot();
+    })
+  })
+
+  it("can parse a locale with country, encoding and modifier",  function(){
+    const de = `[FOO]\n
+      Name[fr]=couleur\n
+      Name[en]=color\n
+      Name[en_GB]=colour\n
+    `;
+    expect(parse(de, "en")).to.deep.equal({FOO:{Name:"color"}});
+    expect(parse(de, "en_GB")).to.deep.equal({FOO:{Name:"colour"}});
+    //Should be matching closest locale
+    //expect(parse(de, "en_AU")).to.deep.equal({FOO:{Name:"color"}});
+  })
+
+  cases.forEach(function(file){
+    it(`parse(${file})`, function(){
+      return load(file).then(function(data){
+        expect(parse(data)).to.matchSnapshot();
+      });
+    })
+  });
 
 })
+
 describe("serialize : ",function(){
-  cases.forEach(function(obj){
-    if(obj.locale) return;
-    it(obj.infile, function(){
-      return loader(obj).then(function(data){
-        const output_data = parse(serialize(data.out));
-        expect(output_data).to.deep.equal(data.out);
+  cases.forEach(function(file){
+    it(`serialize ${file}`, function(){
+      return load(file)
+      .then(d => parse(d))
+      .then(function(data){
+        const output_data = parse(serialize(data));
+        expect(output_data).to.deep.equal(data);
       });
     });
   });
 })
+
+
