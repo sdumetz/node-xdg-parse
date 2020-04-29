@@ -70,6 +70,7 @@ describe("parse : ",function(){
   cases.forEach(function(file){
     it(`parse(${file})`, function(){
       return load(file).then(function(data){
+        //Update snapshots with CHAI_JEST_SNAPSHOT_UPDATE_ALL=true
         expect(parse(data)).to.matchSnapshot();
       });
     })
