@@ -1,7 +1,7 @@
 const match_section = /^\[([^\]]*)\]/;
 const match_line = /^([^\[=]*)(?:\[([-\w@]+)\])?=(.*)$/;
 const match_comment = /^[;#]/;
-
+const match_arrval = /(^|[^\\]);/g;
 function cleanup (val){ //remove leading spaces, trailing spaces and ";"
   return val.replace(/([\s;]+$)|(^\s*)/g,"");
 }
@@ -40,6 +40,9 @@ function parse(content,locale){
         const key = cleanup(tmp[1]);
         const key_locale = tmp[2]? cleanup(tmp[2]): undefined;
         let value = cleanup(tmp[3] || "");
+        if(match_arrval.test(value)){
+          value = splitArrayValue(value);
+        }
 
         if(["Version"].indexOf(key) === -1){
           /* Manually define a list of known-to-be-a-strings keys*/
@@ -63,6 +66,12 @@ function parse(content,locale){
   return obj;
 }
 
+function splitArrayValue(val) {
+  sep = 'SPLIT-MARK-' + Math.random();
+  val = val.replace(/([^\\]);$/g, '$1').replace(match_arrval, '$1'+sep).split(sep);
+  return val;
+}
+
 function serialize(obj){
   const top_keys = Object.keys(obj);
   const lines = [];
@@ -75,4 +84,4 @@ function serialize(obj){
   return lines.join("\n");
 }
 
-module.exports = {parse, serialize, interpolate};
+module.exports = {parse, serialize, interpolate, splitArrayValue};
