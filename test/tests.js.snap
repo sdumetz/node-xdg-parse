@@ -111,7 +111,10 @@ Object {
     "Name": "Browse Gallery",
   },
   "Desktop Entry": Object {
-    "Actions": "Gallery;Create",
+    "Actions": Array [
+      "Gallery",
+      "Create",
+    ],
     "Comment": "The best viewer for Foo objects available!",
     "Exec": "fooview %F",
     "Icon": "fooview",

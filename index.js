@@ -79,7 +79,13 @@ function serialize(obj){
     const items = obj[top_key]
     if(!items) continue;
     const int_keys = Object.keys(items);
-    lines.push(`[${top_key}]`, ... int_keys.map((key)=> `${key}=${items[key]}`))
+    lines.push(`[${top_key}]`, ... int_keys.map((key)=> {
+      if(Array.isArray(items[key])){
+        return `${key}=${items[key].join(";")}`;
+      }else{
+        return `${key}=${items[key]}`
+      }
+    }))
   }
   return lines.join("\n");
 }
