@@ -29,6 +29,22 @@ describe("parse : ",function(){
     expect(parse("      ")).to.deep.equal({});
   })
 
+  it("Force array value for known plural key", function(){
+    expect(parse(`
+      [Desktop Entry]
+      Categories=OneCategory
+      UnknownPlural=val1;val2;
+      UnknownSingular=OneValue
+    `))
+    .to.deep.equal({
+      'Desktop Entry': {
+        Categories: ['OneCategory'],
+        UnknownPlural: ['val1', 'val2'],
+        UnknownSingular: 'OneValue'
+      }
+    });
+  })
+
   it("split multiple line breaks", function(){
     expect(parse(`[FOO]\n\nbar=hello world`)).to.deep.equal({FOO:{bar:"hello world"}});
   })

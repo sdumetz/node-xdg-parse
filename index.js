@@ -2,6 +2,17 @@ const match_section = /^\[([^\]]*)\]/;
 const match_line = /^([^\[=]*)(?:\[([-\w@]+)\])?=(.*)$/;
 const match_comment = /^[;#]/;
 const match_arrval = /(^|[^\\]);/g;
+const known_plural_keys = {
+  'Desktop Entry': [
+    'Actions',
+    'Categories',
+    'Keywords',
+    'MimeType',
+    'NotShowIn',
+    'OnlyShowIn'
+  ]
+};
+
 function cleanup (val){ //remove leading spaces, trailing spaces and ";"
   return val.replace(/([\s;]+$)|(^\s*)/g,"");
 }
@@ -16,7 +27,6 @@ function interpolate(val){
       return /^(?:\d*\.)?\d+$/.test(val)?  parseFloat(val) : val;
   }
 }
-
 
 function parse(content,locale){
   if(typeof content !== "string"){
@@ -40,7 +50,7 @@ function parse(content,locale){
         const key = cleanup(tmp[1]);
         const key_locale = tmp[2]? cleanup(tmp[2]): undefined;
         let value = cleanup(tmp[3] || "");
-        if(match_arrval.test(value)){
+        if(isKnownPlural(currentSection, key) || match_arrval.test(value)){
           value = splitArrayValue(value);
         }
 
@@ -64,6 +74,11 @@ function parse(content,locale){
     }
   });
   return obj;
+}
+
+function isKnownPlural(currentSection, key) {
+  let keys = known_plural_keys[currentSection];
+  return keys && keys.indexOf(key) >= 0;
 }
 
 function splitArrayValue(val) {
