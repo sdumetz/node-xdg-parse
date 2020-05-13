@@ -118,7 +118,9 @@ Object {
     "Comment": "The best viewer for Foo objects available!",
     "Exec": "fooview %F",
     "Icon": "fooview",
-    "MimeType": "image/x-foo",
+    "MimeType": Array [
+      "image/x-foo",
+    ],
     "Name": "Foo Viewer",
     "TryExec": "fooview",
     "Type": "Application",
